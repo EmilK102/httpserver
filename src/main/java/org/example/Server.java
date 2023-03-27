@@ -26,6 +26,7 @@ public class Server {
     }
 
     public static void main(String[] args) {
+        new DataBaseConnection();
         new Server(8080, "/home/e2kvampyre/IdeaProjects/jdbs_test/files").start();
     }
 }

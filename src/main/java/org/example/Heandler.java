@@ -28,6 +28,14 @@ public class Heandler extends Thread{
         try(var input = this.socket.getInputStream(); var output = this.socket.getOutputStream()){
             var url = this.getRequestUrl(input);
             var filePath = Path.of(this.directory + url);
+            if(url.equals("/form")){
+                DataBaseConnection dataBaseConnection = new DataBaseConnection();
+                String result = dataBaseConnection.getResult();
+                var type = CONTENT_TYPES.get("txt");
+                var fileBytes = result.getBytes();
+                this.sendHeader(output,200, "OK", type, fileBytes.length);
+                output.write(fileBytes);
+            }
             if(Files.exists(filePath) && !Files.isDirectory(filePath)){
                 var extension = this.getFileExtension(filePath);
                 var type = CONTENT_TYPES.get(extension);
